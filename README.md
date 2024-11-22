@@ -19,4 +19,26 @@ Para acceder al diseño en Figma:
 
 ---
 
+## 🛠️ Requisitos previos
+
+Antes de comenzar, asegúrate de tener lo siguiente instalado en tu máquina:
+
+- **Node.js**: versión `>=16.x` (Recomendado: utiliza [nvm](https://github.com/nvm-sh/nvm) para gestionar versiones).
+- **npm**: versión `>=8.x`, generalmente incluida con Node.js.
+- **Git**: para clonar el repositorio.
+
+---
+
+## 🚀 Cómo levantar el proyecto
+
+1. **Clona el repositorio**  
+   Abre tu terminal y ejecuta el siguiente comando:
+   ```bash
+   git clone https://github.com/Isao25/CampusMarket.git
+   ```
+3. Dirigirse a la carpeta frontend con cd frontend/
+4. instalar las dependencias con npm i
+5. Para iniciar el proyecto npm run dev
+---
+
 
