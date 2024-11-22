@@ -36,9 +36,24 @@ Antes de comenzar, asegúrate de tener lo siguiente instalado en tu máquina:
    ```bash
    git clone https://github.com/Isao25/CampusMarket.git
    ```
-3. Dirigirse a la carpeta frontend con cd frontend/
-4. instalar las dependencias con npm i
-5. Para iniciar el proyecto npm run dev
+2. **Accede a la carpeta del frontend**  
+   Navega a la carpeta del proyecto frontend:
+   ```bash
+   cd CampusMarket/frontend
+   ```
+3. **Instala las dependencias**  
+   Instala todos los paquetes necesarios para el proyecto:
+   ```bash
+   npm install
+   ```
+4. **Inicia el servidor de desarrollo**  
+   Levanta el proyecto en modo desarrollo:
+   ```bash
+   npm run dev
+   ```
+5. **Accede al proyecto en tu navegador**  
+   Abre tu navegador y dirígete a la URL proporcionada en la terminal (por defecto:http://localhost:5173).
+
 ---
 
 
