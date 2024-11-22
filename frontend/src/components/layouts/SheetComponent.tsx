@@ -2,6 +2,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetDescri
 import { Button } from "../ui/button";
 import { Menu } from "lucide-react";
 import { useState } from "react";
+import { categoriasMocks, Categoria } from "../../mocks/Categorias-mocks";
 
 export const SheetComponent = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -14,112 +15,24 @@ export const SheetComponent = () => {
                     <Menu size={20}/>
                 </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-[300px] sm:w-[540px]">
+            <SheetContent side="left" className="w-[300px]">
                 <SheetHeader>
                     <SheetTitle>Categorías</SheetTitle>
                     <SheetDescription>
                         Selecciona una categoría para navegar por los productos.
                     </SheetDescription>
                 </SheetHeader>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-                    <div className="space-y-2">
-                        <h3 className="font-semibold">Principales</h3>
+                <div className="grid grid-cols-1 gap-2 mt-4">
+                    {categoriasMocks.map((categoria: Categoria) => (
                         <Button
+                            key={categoria.id}
                             variant="ghost"
-                            className="w-full justify-start"
+                            className="w-full justify-start text-xl"
                             onClick={() => setIsOpen(false)}
                         >
-                            Tecnología
+                            {categoria.nombre}
                         </Button>
-                        <Button
-                            variant="ghost"
-                            className="w-full justify-start"
-                            onClick={() => setIsOpen(false)}
-                        >
-                            Calzado
-                        </Button>
-                        <Button
-                            variant="ghost"
-                            className="w-full justify-start"
-                            onClick={() => setIsOpen(false)}
-                        >
-                            Electrohogar
-                        </Button>
-                        <Button
-                            variant="ghost"
-                            className="w-full justify-start"
-                            onClick={() => setIsOpen(false)}
-                        >
-                            Accesorios de moda
-                        </Button>
-                        <Button
-                            variant="ghost"
-                            className="w-full justify-start"
-                            onClick={() => setIsOpen(false)}
-                        >
-                            Electrónica
-                        </Button>
-                    </div>
-                    <div className="space-y-4">
-                        <div>
-                            <h3 className="font-semibold mb-2">Mundo Gamer</h3>
-                            <div className="grid grid-cols-2 gap-2">
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="justify-start"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    Teclados
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="justify-start"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    Ratones
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="justify-start"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    Accesorios
-                                </Button>
-                            </div>
-                        </div>
-                        <div>
-                            <h3 className="font-semibold mb-2">Audio</h3>
-                            <div className="grid grid-cols-2 gap-2">
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="justify-start"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    Audífonos
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="justify-start"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    Parlantes
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="justify-start"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    Accesorios
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
+                    ))}
                 </div>
             </SheetContent>
         </Sheet>

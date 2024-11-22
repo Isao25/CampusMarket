@@ -7,9 +7,9 @@ interface PrivateRouteProps {
 }
 
 export const PrivateRoute = ({ children }:PrivateRouteProps) => {
-  const { authState } = useAuth();
+  const { verificado } = useAuth();
 
-  return authState.userId? (
+  return verificado? (
     children
   ) : (
     <Navigate to={"/"}/>

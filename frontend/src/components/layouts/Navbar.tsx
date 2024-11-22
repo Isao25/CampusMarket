@@ -9,7 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 
 const icons = [
-  { component: <Bell size={28} className="text-secondaryLight" />, link: "/" },
+  { component: <Bell size={28} className="text-secondaryLight" />, link: "#" },
   {
     component: <Heart size={28} className="text-secondaryLight" />,
     link: "/favourites",
@@ -49,9 +49,9 @@ export const Navbar = () => {
 
         {/* Barra de búsqueda y menú */}
         <div className="order-last mt-4 w-full flex flex-grow lg:order-none lg:mt-0 lg:w-auto">
-          <MenuFaculties />
+          
           <div className="relative w-full">
-          <Input
+            <Input
               className="pr-10"
               placeholder="Buscar productos"
               type="search"
@@ -71,8 +71,8 @@ export const Navbar = () => {
           {verificado ? (
             <>
               {icons.map((icon, index) => (
-                <Button key={index} variant="ghost" size="icon">
-                  <NavLink to={icon.link}>{icon.component}</NavLink>
+                <Button key={index} variant="ghost" size="icon" className="p-0">
+                  <NavLink to={icon.link} className="w-full h-full flex justify-center items-center">{icon.component}</NavLink>
                 </Button>
               ))}
               <MenuAccount />
