@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import personaComputadora from "../../assets/persona_computadora.png";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -43,23 +43,16 @@ export const LoginPage = () => {
       password: "",
     },
   });
+  const navigate = useNavigate();
+  const {setVerificado} = useAuth();
 
-  const {login} =useAuth();
-  const [redirect, setRedirect] = useState(false);
-
-  async function onSubmit(values: FormFields) {
-    try{
-      const { username, password } = values;
-      await login(username, password);
-      setRedirect(true);
-    }
-    catch(error){
-      toast.error("Credenciales equivocadas");
-    }
+  function onSubmit(values: FormFields) {
+   
+    toast.success("Inicio de sesión exitoso");
+    setVerificado(true);
+    navigate("/");
     
   }
-  
-  if (redirect) return <Navigate to="/" />;
 
   return (
     <>

@@ -6,7 +6,6 @@ import { Form, FormField, FormControl, FormItem, FormLabel, FormMessage, FormDes
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { LoadEtiquetas } from "../../helpers/LoadEtiquetas";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Checkbox } from "../ui/checkbox";
@@ -21,10 +20,6 @@ export const ProductForm = ({ product }: {product?:Articulo}) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [etiquetas, setEtiquetas] = useState<{ id: number; nombre: string }[]>([]);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    LoadEtiquetas().then((data) => setEtiquetas(data));
-  }, []);
 
   const onCancel = () => {
     form.reset();

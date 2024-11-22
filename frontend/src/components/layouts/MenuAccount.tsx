@@ -57,12 +57,12 @@ const options = [
 ];
 
 export const MenuAccount = () => {
-  const { authState } = useAuth();
+  const { verificado, setVerificado } = useAuth();
   function onLogoutClick() {
-    logout();
+    setVerificado(false);
     toast.success("Sesión terminada");
   }
-  const { logout } = useAuth();
+  
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -82,7 +82,7 @@ export const MenuAccount = () => {
         <DropdownMenuSeparator />
         {options.map((option) => (
           <DropdownMenuItem key={option.text} className="py-2">
-            {authState.userId ? (
+            {verificado ?(
               <Link
                 to={option.link}
                 className="flex items-center w-full justify-between"

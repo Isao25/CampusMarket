@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { UploadedImage } from "./useImageUpload";
 import { createArticulo, Articulo, updateArticulo } from "../../../api/apiArticulos";
 import { useAuth } from "@/hooks/useAuth";
-import { LoadCatalogos } from "../../../helpers/LoadCatalogos";
+
 import { useEffect, useState } from "react";
-import { LoadUsuarios } from "../../../helpers/getUser";
+
 
 
 // Esquema de validación de Zod
@@ -34,7 +34,6 @@ interface UseProductFormProps {
 
 export const useProductForm = ({ images, setImages, product }: UseProductFormProps & { product?: Articulo }) => {
   const navigate = useNavigate();
-  const { authState } = useAuth();
   const [catalogos, setCatalogos] = useState<Array<{
     id: number;
     id_usuario: number;
@@ -45,31 +44,8 @@ export const useProductForm = ({ images, setImages, product }: UseProductFormPro
   const [isMarca, setIsMarca] = useState(false);
 
   // Cargar información del usuario para verificar si tiene marca
-  useEffect(() => {
-    if (authState.userId !== null) {
-      LoadUsuarios(authState.userId).then((data) => {
-        if (data) {
-          setIsMarca(data.tiene_marca);
-          console.log("Tiene marca:", data.tiene_marca);
-        } else {
-          console.error("No se encontró información del usuario.");
-        }
-      });
-    }
-  }, [authState.userId]);
-
+  
   // Cargar los catálogos del usuario
-  useEffect(() => {
-    if (authState.userId !== null) {
-      LoadCatalogos(authState.userId).then((data) => {
-        if (data) {
-          setCatalogos(data);
-        } else {
-          console.error("No se encontraron catálogos para este usuario.");
-        }
-      });
-    }
-  }, [authState.userId]);
 
   // Establecer los valores por defecto del formulario (si existe un producto)
   const form = useForm<z.infer<typeof formSchema>>({

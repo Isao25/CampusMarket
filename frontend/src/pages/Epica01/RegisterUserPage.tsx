@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import personaGestion from "../../assets/persona_gestion.png";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -21,7 +21,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { getFileURL } from "../../utils/helpers";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
 import { createUsuario, getEscuelas } from "@/api/apiUsuarios";
@@ -82,22 +81,6 @@ const formSchema = z.object({
 type FormFields = z.infer<typeof formSchema>;
 
 
-import { AxiosResponse } from "axios";
-
-interface LoaderData {
-  escuelasData: EscuelaProfesional[];
-}
-
-export async function loader(): Promise<LoaderData> {
-  try {
-    const response: AxiosResponse<APIResponse> = await getEscuelas();
-    const escuelasData = response.data.results;
-    return { escuelasData };
-  } catch (error) {
-    console.error("Se produjo un error:", error);
-    return { escuelasData: [] };
-  }
-}
 
 export const RegisterPage = () => {
 
@@ -116,39 +99,13 @@ export const RegisterPage = () => {
       username: "",
     },
   });
-  const { escuelasData } = useLoaderData() as LoaderData;
-
+  
   const fileRef = form.register("codigoqr");
 
-  async function onSubmit(values: FormFields) {
-    const fileInput = form.getValues("codigoqr");
-    let updatedValues = { ...values };
+  const navigate = useNavigate();
 
-    //If qr, obtain url
-    if (fileInput && fileInput[0]) {
-      const selectedFile = fileInput[0];
-      try {
-        const url = await getFileURL(selectedFile as File, "codigoqr_images");
-        updatedValues = { ...values, codigoqr: url };
-      } catch (error) {
-        console.log("Error al obtener el URL del archivo:", error);
-        return;
-      }
-    } else {
-      updatedValues = { ...values, codigoqr: null };
-    }
-
-    //Set username as email
-    updatedValues = { ...updatedValues, username: updatedValues.email };
-
-    try {
-      await createUsuario(updatedValues);
-      toast.success("Su cuenta fue registrada con éxito");
-    } catch (error) {
-      console.log(error);
-      toast.error("Se produjo un error al crear su cuenta");
-    }
-    console.log("Datos del formulario:", updatedValues);
+  function onSubmit(values: FormFields) {
+    navigate("/login");
   }
 
   return (
@@ -256,16 +213,17 @@ export const RegisterPage = () => {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              {escuelasData.map(
-                                (escuela: EscuelaProfesional) => (
-                                  <SelectItem
-                                    key={escuela.id}
-                                    value={escuela.id!}
-                                  >
-                                    {escuela.nombre}
-                                  </SelectItem>
-                                )
-                              )}
+                              {[
+                                { id: 1, nombre: "Ingeniería de Sistemas" },
+                                { id: 2, nombre: "Ingeniería Industrial" },
+                                { id: 3, nombre: "Ingeniería Electrónica" },
+                                { id: 4, nombre: "Ingeniería Civil" },
+                                { id: 5, nombre: "Ingeniería Mecánica" },
+                              ].map((escuela) => (
+                                <SelectItem key={escuela.id} value={escuela.id.toString()}>
+                                  {escuela.nombre}
+                                </SelectItem>
+                              ))}
                             </SelectContent>
                           </Select>
                           <FormMessage />

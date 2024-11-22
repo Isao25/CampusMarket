@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 
 // Epicas
-import { LoginPage, RegisterPage, loader as registerLoader } from "../pages/Epica01";
+import { LoginPage, RegisterPage } from "../pages/Epica01";
 import { ProfileBuyerPage } from "../pages/Epica02";
 import { MainPage, SearchPage, SearchSellers } from "../pages/Epica03";
 import {
@@ -40,7 +40,6 @@ const routes = createBrowserRouter([
   {
     path: "/register",
     element: <RegisterPage />,
-    loader:registerLoader,
   },
   {
     element: <Layout />,

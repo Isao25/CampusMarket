@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/useAuth";
 import { useTrademark } from "@/hooks/useTrademark";
-import { getFileURL } from "@/utils/helpers";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AwardIcon } from "lucide-react";
 import { Helmet } from "react-helmet-async";
@@ -44,14 +44,12 @@ const formSchema = z.object({
 type FormFields = z.infer<typeof formSchema>;
 
 export const RegisterTrademark = () => {
-  const { authState } = useAuth();
   const form = useForm<FormFields>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       nombre: "",
       logo: undefined,
       descripcion: "",
-      id_usuario: authState.userId!,
     },
   });
 
@@ -59,35 +57,8 @@ export const RegisterTrademark = () => {
   const { setMarca } = useTrademark();
   const navigate = useNavigate();
 
-  async function onSubmit(values: FormFields) {
-    const fileInput = form.getValues("logo");
-    let updatedValues = { ...values };
-
-    //Image to Link
-    const selectedFile = fileInput[0];
-    const url = await getFileURL(selectedFile as File, "logo_images");
-    if(url){
-      updatedValues = { ...values, logo: url };
-    }
-    else{
-      toast.error("Ocurrió un error al subir su imagen");
-      return;
-    }
-    
-    //Post marca
-    try{
-      console.log(updatedValues);
-      const response=await createMarca(updatedValues);
-      console.log("response",response);
-    }
-    catch(error){
-      console.log("Posting error",error);
-      toast.error("Ocurrió un error al registrar su marca");
-      return;
-    }
-    setMarca(updatedValues);
-    toast.success("Marca registrada con éxito");
-    navigate("/pay-plan");
+  function onSubmit(values: FormFields) {
+    console.log(values);
   }
 
   return (

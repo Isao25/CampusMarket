@@ -21,7 +21,7 @@ const icons = [
 ];
 
 export const Navbar = () => {
-  const { authState } = useAuth();
+  const { verificado } = useAuth();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -68,7 +68,7 @@ export const Navbar = () => {
 
         {/* Íconos de navegación */}
         <div className="flex items-center space-x-4 ml-3">
-          {authState.userId ? (
+          {verificado ? (
             <>
               {icons.map((icon, index) => (
                 <Button key={index} variant="ghost" size="icon">
