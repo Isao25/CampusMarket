@@ -1,4 +1,3 @@
-import { useAuth } from '@/hooks/useAuth';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router';
 import {
@@ -13,82 +12,58 @@ import { categories, distinguishedSellers, mockProducts, images } from '../../mo
 import { ProductCard } from '../../components/cards/product-card';
 import { LoginModal } from '@/components/Epica5/LoginModal';
 import { useTrademark } from '@/hooks/useTrademark';
-import { useEffect, useState } from 'react';
-import { Articulo, getArticulos } from '../../api/apiArticulos';
-import { EscuelaProfesional, Usuario } from '../../types';
-import { getEscuelas, usuariosApi } from '../../api/apiUsuarios';
-import { baseURL } from '../../api/api';
+
 
 
 
 export const MainPage = () => {
   const navigate = useNavigate();
   const{marca,membresia,plan}=useTrademark();
-  const[products, setProducts] = useState<Articulo[]>([])
-  const [escuelas,setEscuelas] = useState<EscuelaProfesional[]>([])
-  const [sellers, setSellers] = useState<Usuario[]>([])
+
   
 
   console.log({ marca: marca, membresia: membresia, plan: plan });
 
-  const mockProducts = [
-    {
-      id: 1,
-      code: 'P001',
-      nombre: 'Producto 1',
-      precio: 100,
-      qualification: 4.5,
-      img: 'https://via.placeholder.com/150',
-    },
-    {
-      id: 2,
-      code: 'P002',
-      nombre: 'Producto 2',
-      precio: 200,
-      qualification: 4.0,
-      img: 'https://via.placeholder.com/150',
-    },
-    {
-      id: 3,
-      code: 'P003',
-      nombre: 'Producto 3',
-      precio: 300,
-      qualification: 4.8,
-      img: 'https://via.placeholder.com/150',
-    },
-    {
-      id: 4,
-      code: 'P004',
-      nombre: 'Producto 4',
-      precio: 400,
-      qualification: 4.2,
-      img: 'https://via.placeholder.com/150',
-    },
-  ];
+  // const mockProducts = [
+  //   {
+  //     id: 1,
+  //     code: 'P001',
+  //     nombre: 'Producto 1',
+  //     precio: 100,
+  //     qualification: 4.5,
+  //     img: 'https://via.placeholder.com/150',
+  //   },
+  //   {
+  //     id: 2,
+  //     code: 'P002',
+  //     nombre: 'Producto 2',
+  //     precio: 200,
+  //     qualification: 4.0,
+  //     img: 'https://via.placeholder.com/150',
+  //   },
+  //   {
+  //     id: 3,
+  //     code: 'P003',
+  //     nombre: 'Producto 3',
+  //     precio: 300,
+  //     qualification: 4.8,
+  //     img: 'https://via.placeholder.com/150',
+  //   },
+  //   {
+  //     id: 4,
+  //     code: 'P004',
+  //     nombre: 'Producto 4',
+  //     precio: 400,
+  //     qualification: 4.2,
+  //     img: 'https://via.placeholder.com/150',
+  //   },
+  // ];
 
-  useEffect(()=>{
-    const fetchData = async () =>{
-      try {
-        const articulos = await getArticulos()
-        setProducts(articulos.data.results)
-
-        const escuelas = await getEscuelas()
-        setEscuelas(escuelas.data.results)
-
-        const vendedores = await usuariosApi.get('/?tiene_marca=true')
-        setSellers(vendedores.data.results)
-        
-      } catch (error) {
-        throw error
-      }
-    }
-    fetchData()
-  },[])
 
   return (
     <>
       <Helmet>
-        <title>Ezcommerce</title>
+        <title>CampusMarket</title>
       </Helmet>
 
       <div className="container w-full mx-auto">
@@ -133,9 +108,9 @@ export const MainPage = () => {
                 >
                   <ProductCard
                     key={p.id}
-                    id={Number(p.code)}
-                    name={p.nombre}
-                    price={p.precio}
+                    id={Number(p.id)}
+                    name={p.name}
+                    price={p.price}
                     qualification={p.qualification}
                     img="image-card.jpg"
                   />

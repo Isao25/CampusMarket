@@ -3,7 +3,7 @@ import axios from 'axios';
 export const baseURL = 'http://localhost:8000/articulos';
 
 export interface Articulo {
-  id?: number;
+  id: number;
   nombre: string;
   descripcion: string;
   precio: number;

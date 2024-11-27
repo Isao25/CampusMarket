@@ -1,14 +1,14 @@
 import { Helmet } from 'react-helmet-async';
 import { Checkbox } from '../../components/ui/checkbox';
 import { useLocation, useNavigate } from 'react-router';
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import { PaginationComp } from '../../components/Epica03/paginationComponent';
 import { Search } from 'lucide-react'
 import { Input } from "@/components/ui/input"
-import axios from 'axios'
-import { Facultad, getAllFacultades } from '../../api/apiFacultades';
+import { distinguishedSellers } from '../../mocks/mainPage-mocks';
+import { SellersCard } from '../../components/cards';
 
-
+const facultades = ['FIEE', 'FISI', 'FCE', 'FCB', 'FCF', 'FCM'];
 
 export const SearchSellers = () => {
 
@@ -24,29 +24,13 @@ export const SearchSellers = () => {
     }
   };
 
-  const [items, setItems] = useState<[]>([]);
+ 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [isInitialized, setIsInitialized] = useState(false);
-  const [facultades, setFacultades] = useState<Facultad[]>([])
   const [showAll, setShowAll] = useState(false);
 
-  useEffect(() => {
-    const fetchFacus = async () => {
-      try {
-        const data1 = await getAllFacultades(1)
-        const data2 = await getAllFacultades(2)
-        const facultadesT = [...data1.data.results, ...data2.data.results]
-
-        setFacultades(facultadesT)
-
-      } catch (error) {
-        throw error
-      }
-    }
-    fetchFacus()
-  }, [])
+  
 
   const displayedFacultades = showAll ? facultades : facultades.slice(0, 10);
   
@@ -55,8 +39,6 @@ export const SearchSellers = () => {
     facultades: [] as string[],
   };
   const [filters, setFilters] = useState(defaultFilters);
-  
-  const apiUrl = "http://localhost:8000/usuarios/?tiene_marca=true";
   
   // Cambiar página
   const handlePageChange = (page: number) => {
@@ -100,66 +82,13 @@ export const SearchSellers = () => {
     });
   };
   
-   // Construcción de la URL de la API
-   const constructApiUrl = () => {
-    const queryParams = new URLSearchParams();
-  
-    if (currentPage > 1) queryParams.append("page", currentPage.toString());
-    queryParams.append("limit", itemsPerPage.toString());
-  
-    if (filters.name) queryParams.append("nombre", filters.name);
-    if (filters.facultades.length > 0) {
-      queryParams.append("facultades", filters.facultades.join(","));
-    }
-  
-    return `${apiUrl}?${queryParams.toString()}`;
-  };
-  
-  // Actualización de datos desde la API
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(constructApiUrl());
-      setItems(response.data.results);
-      setTotalPages(Math.ceil(response.data.count / itemsPerPage));
-    } catch (error) {
-      console.error("Error al obtener los datos:", error);
-    } 
-  };
-  
-  // Actualizar URL con filtros actuales
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-  
-    const name = searchParams.get("nombre") || "";
-    const facultades = searchParams.getAll("facultades");
-    const pageFromUrl = Number(searchParams.get("page") || "1");
-    const limitFromUrl = Number(searchParams.get("limit") || "10");
-  
-    const newFilters = {
-      name,
-      facultades,
-    };
-  
-    // Actualiza los estados con los valores desde la URL
-    setFilters(newFilters);
-    setCurrentPage(pageFromUrl > 0 ? pageFromUrl : 1);
-    setItemsPerPage(limitFromUrl);
-  
-    // Marca como inicializado
-    setIsInitialized(true);
-  }, [location.search]);
 
-
-  useEffect(() => {
-    if (isInitialized) {
-      fetchData();
-    }
-  }, [isInitialized, filters, currentPage, itemsPerPage]);
+  
 
   return(
     <>
       <Helmet>
-        <title>Vendedores - EzCommerce</title>
+        <title>Vendedores - CampusMarket</title>
       </Helmet>
       <section className="w-full mx-auto mt-8">
       <div className="bg-gradient-to-b from-[#00366926] to-white rounded-lg px-6 pt-8 pb-2 space-y-6">
@@ -197,15 +126,15 @@ export const SearchSellers = () => {
           <div className="mb-4">
             <h3 className="font-bold text-xl">Facultades</h3>
             {displayedFacultades.map((fac) => (
-              <div key={fac.codigo} className="flex items-center space-x-2 my-4">
+              <div key={fac} className="flex items-center space-x-2 my-4">
                 <Checkbox
-                  id={fac.codigo.toString()}
+                  id={fac}
                   className="w-[24px] h-[24px] rounded-lg border-2 border-secondaryLight data-[state=checked]:bg-secondaryLight"
-                  onCheckedChange={() => handleCheckboxChange(fac.siglas)}
-                  checked={filters.facultades.includes(fac.siglas)}
+                  onCheckedChange={() => handleCheckboxChange(fac)}
+                  checked={filters.facultades.includes(fac)}
                 />
-                <label htmlFor={fac.siglas} className="text-md font-medium leading-none">
-                  {fac.siglas}
+                <label htmlFor={fac} className="text-md font-medium leading-none">
+                  {fac}
                 </label>
               </div>
             ))}
@@ -229,8 +158,10 @@ export const SearchSellers = () => {
             </div>
           </div>
         <div className="flex flex-col grow border rounded border-slate-300 p-4">
-          <div className='grow'>
-
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-6 p-4'>
+            {distinguishedSellers ? distinguishedSellers.map((p) => (
+              <SellersCard key={p.id} id={p.id} name={p.name} imageAlt={p.imageAlt} description={p.description} imageSrc={p.imageSrc} />
+            )) : null}
           </div>
           <div className='flex flex-row justify-between mt-4 '>
             <div className='flex'>

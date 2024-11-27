@@ -10,9 +10,9 @@ export const Footer = () => {
           <div className="flex flex-col space-x-2">
             <Link to='/'>
               <img
-                src="/Ezcommerce-logo-dark.png"
+                src="/Logo-Campus_Market.png"
                 alt="logo"
-                width={180}
+                width={150}
                 height={88}
               />
             </Link>
@@ -99,7 +99,7 @@ export const Footer = () => {
       {/* Copyright */}
       <div className="border-t py-4 text-center mt-2 lg:mt-9">
         <span className="text-sm">
-          Copyright @ 2024 EzCommerce. Todos los derechos reservados
+          Copyright @ 2024 CampusMarket. Todos los derechos reservados
         </span>
       </div>
     </footer>

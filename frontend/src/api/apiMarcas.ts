@@ -1,44 +1,34 @@
-import { Marca, Tokens } from "@/types";
-import {baseURL } from "./api";
-import axios from "axios";
+import { Marca} from "@/types";
+import {baseURL, AxiosProtectedService, AxiosService } from "./api";
 
 //Marcas
-const marcasApi = axios.create({
-  baseURL: `${baseURL}/marcas/`,
-});
-
-export const getMarcaByUsuario = (idUsuario: number | null) => {
-  return marcasApi.get(`/?id_usuario=${idUsuario}`);
-};
-export const createMarca = (marca:Marca) => {
-  return marcasApi.post("/",marca);
-};
-
-marcasApi.interceptors.request.use((config) => {
-  const tokens: Tokens | null = JSON.parse(localStorage.getItem("tokens") || "null");
-  if (tokens?.access) {
-      config.headers.Authorization = `Bearer ${tokens.access}`;
-  }
-  return config;
-});
+class MarcasService extends AxiosProtectedService{
+  getMarcaByUsuario = (idUsuario: number | null) => {
+    return this.instance.get(`/?id_usuario=${idUsuario}`);
+  };
+  createMarca = (marca:Marca) => {
+    return this.instance.post("/",marca);
+  };
+}
+export const marcasService=new MarcasService(`${baseURL}/marcas/`);
 
 //Membresias
-const membresiasApi = axios.create({
-  baseURL: `${baseURL}/membresias/`,
-});
-
-export const getMembresiaByMarca = (idMarca: number) => {
-  return membresiasApi.get(`/?id_marca=${idMarca}`);
-};
+class MembresiasService extends AxiosService{
+  getMembresiaByMarca = (idMarca: number) => {
+    return this.instance.get(`/?id_marca=${idMarca}`);
+  };
+}
+export const membresiasService=new MembresiasService(`${baseURL}/membresias/`);
 
 //Planes
-const planesApi = axios.create({
-  baseURL: `${baseURL}/planes/`,
-});
+class PlanesService extends AxiosService{
+  getPlan = async (planId: number) => {
+    return await this.instance.get(`${planId}`);
+  };
+  getPlanes = () => {
+    return this.instance.get("/");
+  };
+}
+export const planesService=new PlanesService(`${baseURL}/planes/`);
 
-export const getPlan = async (planId: number) => {
-  return await planesApi.get(`${planId}`);
-};
-export const getPlanes = () => {
-  return planesApi.get("/");
-};
+

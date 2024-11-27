@@ -1,10 +1,9 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { ChevronLeft, CirclePlus } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { CardPublishedEdit } from "../../components/Epica04/CardPublishedEdit";
-import { useAuth } from "@/hooks/useAuth";
 
 export const MyPublishedProductsPage = () => {// Obtener el estado de autenticación
   const [products, setProducts] = useState<any[]>([]);

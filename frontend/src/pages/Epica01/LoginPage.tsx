@@ -72,7 +72,7 @@ export const LoginPage = () => {
                 <div className="flex flex-col">
                   <div className="flex justify-center">
                     <img
-                      src="/Ezcommerce-logo-light.png"
+                      src="/CampusMarket-logo-light.png"
                       className="h-16 md:h-20"
                     />
                   </div>

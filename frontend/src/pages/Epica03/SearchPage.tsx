@@ -2,43 +2,25 @@ import { Helmet } from 'react-helmet-async';
 import { Checkbox } from '../../components/ui/checkbox';
 import { Slider } from '../../components/ui/slider';
 import { useLocation, useNavigate } from 'react-router';
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { PaginationComp } from '../../components/Epica03/paginationComponent';
-import axios from 'axios'
-import { EtiquetasContext } from '../../context/EtiquetasContext';
 import { ProductCard } from '../../components/cards/product-card';
-import { Articulo } from '../../api/apiArticulos';
-import { Facultad, getAllFacultades } from '../../api/apiFacultades';
+import { mockProducts } from '../../mocks/mainPage-mocks';
+import { categories } from '../../mocks/mainPage-mocks';
 
+const facultades = ['FIEE', 'FISI', 'FCE', 'FCB', 'FCF', 'FCM'];
 
 export const SearchPage = () => {
-  const { etiquetasList, setLoadingPage } = useContext(EtiquetasContext);
+
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [items, setItems] = useState<Articulo[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [isInitialized, setIsInitialized] = useState(false);
-  const [facultades, setFacultades] = useState<Facultad[]>([])
   const [showAll, setShowAll] = useState(false);
 
-  useEffect(() => {
-    const fetchFacus = async () => {
-      try {
-        const data1 = await getAllFacultades(1)
-        const data2 = await getAllFacultades(2)
-        const facultadesT = [...data1.data.results, ...data2.data.results]
-
-        setFacultades(facultadesT)
-
-      } catch (error) {
-        throw error
-      }
-    }
-    fetchFacus()
-  }, [])
+  
 
   const displayedFacultades = showAll ? facultades : facultades.slice(0, 10);
 
@@ -51,48 +33,13 @@ export const SearchPage = () => {
   };
   const [filters, setFilters] = useState(defaultFilters);
 
-  const apiUrl = "http://localhost:8000/articulos";
 
-  // Construcción de la URL de la API
-  const constructApiUrl = () => {
-    const queryParams = new URLSearchParams();
-    if (currentPage > 1) queryParams.append("page", currentPage.toString());
-    queryParams.append("limit", itemsPerPage.toString());
-
-    if (filters.name) queryParams.append("nombre", filters.name);
-    filters.categorias.forEach((cat) => queryParams.append("etiquetas", cat.toString()));
-    if (filters.facultades.length > 0) {
-      queryParams.append("facultades", filters.facultades.join(","));
-    }
-    if (filters.min) queryParams.append("precio_min", filters.min.toString());
-    if (filters.max) queryParams.append("precio_max", filters.max.toString());
-
-    return `${apiUrl}?${queryParams.toString()}`;
-  };
-
-  // Actualización de datos desde la API
-  const fetchData = async () => {
-    setLoadingPage(true);
-    try {
-      const response = await axios.get(constructApiUrl());
-      setItems(response.data.results);
-      setTotalPages(Math.ceil(response.data.count / itemsPerPage));
-    } catch (error) {
-      console.error("Error al obtener los datos:", error);
-    } finally {
-      setLoadingPage(false);
-    }
-  };
-
-
-  // Cambiar página
   const handlePageChange = (page: number) => {
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("page", page.toString());
     navigate(`?${searchParams.toString()}`);
   };
 
-  // Cambiar elementos por página
   const handleLimitChange = (newLimit: number) => {
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("page", "1");
@@ -146,39 +93,12 @@ export const SearchPage = () => {
     });
   };
 
-  // Leer filtros desde la URL al cargar o cambiar la URL
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
 
-    // Actualiza los filtros desde la URL
-    const newFilters = {
-      name: searchParams.get("nombre") || "",
-      categorias: searchParams.getAll("etiquetas").map(Number), // Convierte etiquetas a números
-      facultades: searchParams.getAll("facultades"), // Facultades como strings
-      min: Number(searchParams.get("precio_min") || "0"), // Precio mínimo
-      max: Number(searchParams.get("precio_max") || "500"), // Precio máximo
-    };
-
-    // Establece los filtros, página y límite desde la URL
-    setFilters(newFilters);
-    setCurrentPage(Number(searchParams.get("page") || "1"));
-    setItemsPerPage(Number(searchParams.get("limit") || "10"));
-
-    // Llama a la API para obtener los datos
-    setIsInitialized(true);
-  }, [location.search]);
-
-  // Actualiza la URL cada vez que cambian los filtros, página o límite
-  useEffect(() => {
-    if (isInitialized) {
-      fetchData();
-    }
-  }, [isInitialized, filters, currentPage, itemsPerPage]);
 
   return (
     <>
       <Helmet>
-        <title>Search - EzCommerce</title>
+        <title>Search - CampusMarket</title>
       </Helmet>
 
       <div className="w-full gap-4 flex flex-row min-h-96 my-10 ">
@@ -187,7 +107,7 @@ export const SearchPage = () => {
 
           <div className="mb-4">
             <h3 className="font-bold text-xl">Categorias</h3>
-            {Array.isArray(etiquetasList) && etiquetasList.map((cat) => (
+            {Array.isArray(categories) && categories.map((cat) => (
               <div key={cat.id} className="flex items-center space-x-2 my-4">
                 <Checkbox
                   id={cat.id.toString()}
@@ -196,7 +116,7 @@ export const SearchPage = () => {
                   checked={filters.categorias.includes(cat.id)}
                 />
                 <label htmlFor={cat.id.toString()} className="text-md font-medium leading-none">
-                  {cat.nombre}
+                  {cat.title}
                 </label>
               </div>
             ))}
@@ -205,15 +125,15 @@ export const SearchPage = () => {
           <div className="mb-4">
             <h3 className="font-bold text-xl">Facultades</h3>
             {displayedFacultades.map((fac) => (
-              <div key={fac.codigo} className="flex items-center space-x-2 my-4">
+              <div key={fac} className="flex items-center space-x-2 my-4">
                 <Checkbox
-                  id={fac.codigo.toString()}
+                  id={fac}
                   className="w-[24px] h-[24px] rounded-lg border-2 border-secondaryLight data-[state=checked]:bg-secondaryLight"
-                  onCheckedChange={() => handleCheckboxChange(fac.siglas, 'facultades')}
-                  checked={filters.facultades.includes(fac.siglas)}
+                  onCheckedChange={() => handleCheckboxChange(fac, 'facultades')}
+                  checked={filters.facultades.includes(fac)}
                 />
-                <label htmlFor={fac.siglas} className="text-md font-medium leading-none">
-                  {fac.siglas}
+                <label htmlFor={fac} className="text-md font-medium leading-none">
+                  {fac}
                 </label>
               </div>
             ))}
@@ -265,7 +185,7 @@ export const SearchPage = () => {
           <div className='flex flex-row justify-between mb-4'>
             <div>
               {filters.name && (
-                <h3>{items ? items.length : 0} resultados para "{filters.name}"</h3>
+                <h3>{mockProducts ? mockProducts.length : 0} resultados para "{filters.name}"</h3>
               )}
             </div>
             <div className='mr-8'>
@@ -278,8 +198,8 @@ export const SearchPage = () => {
             </div>
           </div>
           <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-6 p-4'>
-            {items ? items.map((p) => (
-              <ProductCard key={p.id} id={p.id} name={p.nombre} price={p.precio} qualification={4} img={''} />
+            {mockProducts ? mockProducts.map((p) => (
+              <ProductCard key={p.id} id={p.id} name={p.name} price={p.price} qualification={p.qualification} brand={p.brand} img={p.img} />
             )) : null}
           </div>
           <div className='mt-auto flex flex-row justify-between'>

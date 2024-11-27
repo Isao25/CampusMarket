@@ -2,12 +2,11 @@ import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { ProductForm } from '../../components/Epica04/ProductForm';
 import { useEffect, useState } from 'react';
-import { getArticulo } from '../../api/apiArticulos';
-import { Articulo as a } from '../../api/apiArticulos';
+import { Articulo, getArticulo } from '../../api/apiArticulos';
 
 export const EditProductPage = () => {
   const { productId } = useParams<{ productId: string }>();
-  const [productToEdit, setProductToEdit] = useState<a>();
+  const [productToEdit, setProductToEdit] = useState<Articulo>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

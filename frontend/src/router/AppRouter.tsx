@@ -20,7 +20,6 @@ import {
   FavouritesPage,
 } from "../pages/Epica04";
 import { Layout } from "../components/layouts/Layout";
-import { PrivateRoute } from "../components/Epica1/PrivateRoute";
 import {
   PendingPurchasesPage,
   PurchaseHistoryPage,
@@ -56,19 +55,17 @@ const routes = createBrowserRouter([
         // loader:
       },
       {
-        path:"/sellers",
-        element:<SearchSellers />
+        path: "/sellers",
+        element: <SearchSellers />
       },
-      { 
-        path:"/contact",
-        element:<ContactPage />
+      {
+        path: "/contact",
+        element: <ContactPage />
       },
       {
         path: "/profile-buyer",
         element: (
-          <PrivateRoute>
-            <ProfileBuyerPage />
-          </PrivateRoute>
+          <ProfileBuyerPage />
         ),
         // loader:
       },
@@ -81,27 +78,21 @@ const routes = createBrowserRouter([
       {
         path: "/products-management",
         element: (
-          <PrivateRoute>
-            <ProductsManagementPage />
-          </PrivateRoute>
+          <ProductsManagementPage />
         ),
         // loader:
       },
       {
         path: "/my-published-products",
         element: (
-          <PrivateRoute>
-            <MyPublishedProductsPage />
-          </PrivateRoute>
+          <MyPublishedProductsPage />
         ),
         // loader:
       },
       {
         path: "/publish-product",
         element: (
-          <PrivateRoute>
-            <PublishProductPage />
-          </PrivateRoute>
+          <PublishProductPage />
         ),
         // loader:
       },
@@ -109,60 +100,46 @@ const routes = createBrowserRouter([
         // path: "/:userId/edit-product/productId",
         path: "/edit-product/:productId",
         element: (
-          <PrivateRoute>
-            <EditProductPage />
-          </PrivateRoute>
+          <EditProductPage />
         ),
       },
       {
         path: "/favourites",
         element: (
-          <PrivateRoute>
-            <FavouritesPage />
-          </PrivateRoute>
+          <FavouritesPage />
         ),
         // loader:
       },
       {
         path: "/shopping-cart",
         element: (
-          <PrivateRoute>
-            <ShoppingCartPage />
-          </PrivateRoute>
+          <ShoppingCartPage />
         ),
         // loader:
       },
       {
         path: "/plans",
         element: (
-          <PrivateRoute>
-            <PlansPage />
-          </PrivateRoute>
+          <PlansPage />
         ),
         loader: plansLoader,
       },
       {
         path: "/pay-plan",
         element: (
-          <PrivateRoute>
-            <PayPlanPage />
-          </PrivateRoute>
+          <PayPlanPage />
         ),
       },
       {
         path: "/register-trademark",
         element: (
-          <PrivateRoute>
-            <RegisterTrademark />
-          </PrivateRoute>
+          <RegisterTrademark />
         ),
       },
       {
         path: "/payment-confirmation",
         element: (
-          <PrivateRoute>
-            <PaymentConfirmation />
-          </PrivateRoute>
+          <PaymentConfirmation />
         ),
       },
       {

@@ -22,9 +22,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Toaster } from "@/components/ui/sonner";
-import { toast } from "sonner";
-import { createUsuario, getEscuelas } from "@/api/apiUsuarios";
-import { EscuelaProfesional, APIResponse } from "@/types";
 
 const formSchema = z.object({
   nombres: z
@@ -125,7 +122,7 @@ export const RegisterPage = () => {
               <div className="bg-white h-full py-2 px-12 flex flex-col">
                 <div className="flex flex-col gap-1">
                   <div className="flex justify-center">
-                    <img src="/Ezcommerce-logo-light.png" className="h-16" />
+                    <img src="/CampusMarket-logo-light.png" className="h-16" />
                   </div>
                   <p className="text-secondaryLight text-center text-sm font-semibold">
                     Crea tu cuenta

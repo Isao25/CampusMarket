@@ -40,7 +40,7 @@ export const Navbar = () => {
         <div className="w-40 lg:mr-9">
           <Link to="/">
             <img
-              src="Ezcommerce-logo-light.png"
+              src="campusMarket-logo.png"
               alt="Logo"
               className="w-full"
             />

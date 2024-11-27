@@ -4,7 +4,8 @@ import { Plan } from "@/types";
 import { GratisModal } from "../../components/Epica5/GratisModal";
 import { useLoaderData } from "react-router";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { getPlanes } from "@/api/apiMarcas";
+import { mockPlanes } from "../../mocks/planes.mock";
+
 
 const beneficios_basicos = [
   "Publica tus productos para llegar a más clientes potenciales.",
@@ -32,22 +33,20 @@ const planGratuito: Plan = {
   beneficios: beneficios_basicos,
 };
 
-
 interface LoaderData {
   planesData: Plan[] | null;
 }
 
 export async function loader(): Promise<LoaderData> {
   try {
-    const planesResponse = await getPlanes();
-    const planes = planesResponse.data.results as Plan[];
 
-    planes.forEach((plan: Plan) => {
+
+    mockPlanes.forEach((plan: Plan) => {
       plan.beneficios = beneficios_marcas(plan.espacio_extra);
     });
-    planes.unshift(planGratuito);
+    mockPlanes.unshift(planGratuito);
   
-    return { planesData: planes }; 
+    return { planesData: mockPlanes }; 
   } catch (error) {
     console.error("Fetching error", error);
 

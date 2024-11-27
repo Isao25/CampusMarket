@@ -8,7 +8,7 @@ import { EtiquetasProvider } from "./context/EtiquetasContext";
 
 
 
-export const EzCommercerApp = () => {
+export const CampusMarketApp = () => {
   return (
     <HelmetProvider>
       <EtiquetasProvider>

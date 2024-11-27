@@ -7,7 +7,7 @@ import { toast } from "sonner";
 export const PaymentConfirmation = () => {
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText("ezcommerce@gmail.com");
+      await navigator.clipboard.writeText("campusmarket@gmail.com");
       toast.success("Copiado a portapapeles");
     } catch (error) {
       toast.error("Error al copiar a portapales");
@@ -29,7 +29,7 @@ export const PaymentConfirmation = () => {
               actualización de tu plan.
             </p>
             <div className="flex gap-2"> 
-              <Input disabled defaultValue={"ezcommerce@gmail.com"}/>
+              <Input disabled defaultValue={"campusmarket@gmail.com"}/>
               <Button onClick={handleCopy}>
                <Copy/> 
               </Button>

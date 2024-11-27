@@ -1,4 +1,3 @@
-import { createMarca } from "@/api/apiMarcas";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -9,15 +8,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useAuth } from "@/hooks/useAuth";
 import { useTrademark } from "@/hooks/useTrademark";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AwardIcon } from "lucide-react";
+
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = z.object({
