@@ -24,42 +24,6 @@ export const MainPage = () => {
 
   console.log({ marca: marca, membresia: membresia, plan: plan });
 
-  // const mockProducts = [
-  //   {
-  //     id: 1,
-  //     code: 'P001',
-  //     nombre: 'Producto 1',
-  //     precio: 100,
-  //     qualification: 4.5,
-  //     img: 'https://via.placeholder.com/150',
-  //   },
-  //   {
-  //     id: 2,
-  //     code: 'P002',
-  //     nombre: 'Producto 2',
-  //     precio: 200,
-  //     qualification: 4.0,
-  //     img: 'https://via.placeholder.com/150',
-  //   },
-  //   {
-  //     id: 3,
-  //     code: 'P003',
-  //     nombre: 'Producto 3',
-  //     precio: 300,
-  //     qualification: 4.8,
-  //     img: 'https://via.placeholder.com/150',
-  //   },
-  //   {
-  //     id: 4,
-  //     code: 'P004',
-  //     nombre: 'Producto 4',
-  //     precio: 400,
-  //     qualification: 4.2,
-  //     img: 'https://via.placeholder.com/150',
-  //   },
-  // ];
-
-
   return (
     <>
       <Helmet>
@@ -101,7 +65,7 @@ export const MainPage = () => {
             }}
           >
             <CarouselContent className="mb-12 mt-4 mx-auto px-20">
-              {mockProducts.map((p) => (
+              {mockProducts.slice(0,8).map((p) => ( 
                 <CarouselItem
                   key={`ci-${p.id}`}
                   className="basis-1/1 lg:basis-1/2 xl:basis-1/3 2xl:basis-1/4"
