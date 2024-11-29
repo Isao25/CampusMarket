@@ -197,7 +197,7 @@ export const SearchPage = () => {
               />
             </div>
           </div>
-          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-6 p-4'>
+          <div className="flex flex-wrap justify-center gap-4 p-4">
             {mockProducts ? mockProducts.map((p) => (
               <ProductCard key={p.id} id={p.id} name={p.name} price={p.price} qualification={p.qualification} brand={p.brand} img={p.img} />
             )) : null}

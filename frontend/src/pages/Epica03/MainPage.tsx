@@ -130,7 +130,7 @@ export const MainPage = () => {
               Elige tu categoría favorita
             </h2>
           </div>
-          <div className="grid grid-cols-4 grid-rows-2 gap-4 px-24">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 grid-rows-4 md:grid-rows-2 gap-4 px-4 xl:px-16">
             {categories.map((category, index) => (
               <CategoriesCard
                 id={category.id.toString()}
