@@ -8,11 +8,12 @@ export interface IProductCardProps {
     id: number,
     name: string,
     price: number,
+    stock?: number,
     isFavourite?: boolean,
-    img:string
+    img:string[]
     brand?:string,
     qualification?:number,
-    
+    description?:string
 }
 
 export const ProductCard = ({
@@ -52,7 +53,7 @@ export const ProductCard = ({
                 </div>
         <div className="aspect-square overflow-hidden rounded-md mb-4">
           <img
-            src={img}
+            src={img[0]}
             alt={name}
             className="object-cover w-full h-full"
           />

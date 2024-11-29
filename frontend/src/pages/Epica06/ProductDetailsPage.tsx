@@ -28,153 +28,38 @@ import {
   ShoppingCart,
   Star,
 } from "lucide-react";
-import { Helmet } from "react-helmet-async";
-import { ProductCard } from "@/components/cards/product-card";
+
+
+import { IProductCardProps, ProductCard } from "@/components/cards/product-card";
 import { useParams } from "react-router";
-import { useEffect, useState } from "react";
 import { Progress } from "@/components/ui/progress";
-import { getArticulo, Articulo, getArticulos } from "@/api/apiArticulos";
 import { Link } from "react-router-dom";
+import { mockProducts } from "../../mocks/mainPage-mocks";
+import { useEffect, useState } from "react";
+import { ModalComment } from "@/components/Epica06/ModalComment";
 
-interface IProductDetailProp {
-  id: number;
-  name: string;
-  price: number;
-  description: string;
-  isFavourite: boolean;
-  img: string;
-  brand: string;
-  qualification: number;
-}
-
-const products: IProductDetailProp[] = [
-  {
-    id: 1,
-    name: "Smartphone X",
-    price: 499.99,
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sapien lacus, tempor non magna nec, porta cursus mauris. Curabitur condimentum suscipit est in convallis. Mauris euismod fermentum lacinia. Nulla nec est et justo iaculis vehicula. Aenean tempus tempus condimentum. Cras rutrum magna est. ",
-    isFavourite: false,
-    img: "https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaPE/17659332_1/w=800,h=800,fit=pad",
-    brand: "BrandX",
-    qualification: 4.5,
-  },
-  {
-    id: 2,
-    name: "Laptop Pro",
-    price: 1299.99,
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sapien lacus, tempor non magna nec, porta cursus mauris. Curabitur condimentum suscipit est in convallis. In elementum ullamcorper congue. Nulla condimentum, mi nec consectetur tristique, elit mauris pretium felis, non porttitor velit leo sit amet felis. Aenean tempus tempus condimentum. Cras rutrum magna est. ",
-    isFavourite: false,
-    img: "https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaPE/17659332_1/w=800,h=800,fit=pad",
-    brand: "TechMaster",
-    qualification: 4.7,
-  },
-  {
-    id: 3,
-    name: "Wireless Earbuds",
-    price: 99.99,
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sapien lacus, tempor non magna nec, porta cursus mauris. Curabitur condimentum suscipit est in convallis. In elementum ullamcorper congue. Nulla condimentum, mi nec consectetur tristique, elit mauris pretium felis, non porttitor velit leo sit amet felis. Aenean tempus tempus condimentum. Cras rutrum magna est. ",
-    isFavourite: false,
-    img: "https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaPE/17659332_1/w=800,h=800,fit=pad",
-    brand: "SoundMax",
-    qualification: 4.3,
-  },
-  {
-    id: 4,
-    name: "4K TV",
-    price: 799.99,
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sapien lacus, tempor non magna nec, porta cursus mauris. Curabitur condimentum suscipit est in convallis. In elementum ullamcorper congue. Nulla condimentum, mi nec consectetur tristique, elit mauris pretium felis, non porttitor velit leo sit amet felis. Aenean tempus tempus condimentum. Cras rutrum magna est. ",
-    isFavourite: false,
-    img: "https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaPE/17659332_1/w=800,h=800,fit=pad",
-    brand: "UltraVision",
-    qualification: 4.6,
-  },
-  {
-    id: 5,
-    name: "Smartwatch Series 5",
-    price: 199.99,
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sapien lacus, tempor non magna nec, porta cursus mauris. Curabitur condimentum suscipit est in convallis. Aenean tempus tempus condimentum. Cras rutrum magna est. ",
-    isFavourite: false,
-    img: "https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaPE/17659332_1/w=800,h=800,fit=pad",
-    brand: "WearableTech",
-    qualification: 4.2,
-  },
-  {
-    id: 6,
-    name: "Smartwatch Series 5",
-    price: 199.99,
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sapien lacus, tempor non magna nec, porta cursus mauris. Curabitur condimentum suscipit est in convallis. Aenean tempus tempus condimentum. Cras rutrum magna est. ",
-    isFavourite: false,
-    img: "https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaPE/17659332_1/w=800,h=800,fit=pad",
-    brand: "WearableTech",
-    qualification: 4.2,
-  },
-  {
-    id: 7,
-    name: "Smartwatch Series 5",
-    price: 199.99,
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sapien lacus, tempor non magna nec, porta cursus mauris. Curabitur condimentum suscipit est in convallis. In elementum ullamcorper congue. Nulla condimentum, mi nec consectetur tristique, elit mauris pretium felis, non porttitor velit leo sit amet felis. Aenean tempus tempus condimentum. Cras rutrum magna est. ",
-    isFavourite: false,
-    img: "https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaPE/17659332_1/w=800,h=800,fit=pad",
-    brand: "WearableTech",
-    qualification: 4.2,
-  },
-  {
-    id: 8,
-    name: "Smartwatch Series 5",
-    price: 199.99,
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sapien lacus, tempor non magna nec, porta cursus mauris. Curabitur condimentum suscipit est in convallis. Mauris euismod fermentum lacinia. Nulla nec est et justo iaculis vehicula. ",
-    isFavourite: false,
-    img: "https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaPE/17659332_1/w=800,h=800,fit=pad",
-    brand: "WearableTech",
-    qualification: 4.2,
-  },
-];
 
 export function ProductDetailsPage() {
   const { productId } = useParams<{ productId: string }>();
   const [quantity, setQuantity] = useState(1);
-  const [articulo, setArticulo] = useState<Articulo | null>(null);
-  const [productos, setProductos] = useState<Articulo[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [articulo, setArticulo] = useState<IProductCardProps | undefined>(undefined);
 
   useEffect(() => {
-    const fetchArticulo = async (id: number) => {
-      setIsLoading(true);
-      try {
-        const response = await getArticulo(id);
-        setArticulo(response.data);
-
-        const responseProductos = await getArticulos();
-        setProductos(responseProductos.data.results);
-
-        console.log(response.data);
-        console.log(responseProductos.data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    if (productId) {
-      fetchArticulo(Number(productId));
-    }
+    const producto = mockProducts.find((p) => p.id === Number(productId));
+    if (producto) setArticulo(producto);
   }, [productId]);
+  
+
+  
 
   const incrementQuantity = () => {
     if (articulo?.stock) {
-      setQuantity((prev) => Math.min(prev + 1, articulo?.stock));
+      setQuantity((prev) => Math.min(prev + 1, articulo.stock ?? 0));
     }
   };
+
   const decrementQuantity = () => setQuantity((prev) => Math.max(prev - 1, 1));
+
 
   if (!articulo) {
     return (
@@ -199,20 +84,10 @@ export function ProductDetailsPage() {
     </div>
   );
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-terciaryLight"></div>
-      </div>
-    );
-  }
+  
 
   return (
     <div className="w-full">
-      <Helmet>
-        <title>{articulo?.nombre}</title>
-      </Helmet>
-
       <div className="flex flex-wrap justify-between items-center gap-4 py-8">
         {/* Título del detalle del producto */}
         <div className="flex items-center gap-2">
@@ -250,7 +125,7 @@ export function ProductDetailsPage() {
               <CardContent className="p-0">
                 <div>
                   <img
-                    src={`${products[0].img}`}
+                    src={articulo.img[0]}
                     alt="Sony Headphones"
                     className="rounded-lg w-full max-w-sm h-auto scale-90 self-center mix-blend-multiply "
                   />
@@ -263,7 +138,7 @@ export function ProductDetailsPage() {
                   <CardContent className="p-0">
                     <div className="aspect-square relative">
                       <img
-                        src="https://www.lacuracao.pe/media/catalog/product/w/h/wh-ch520-bz_1.jpg?quality=80&bg-color=255,255,255&fit=bounds&height=700&width=700&canvas=700:700"
+                        src={articulo.img[i]}
                         alt={`Thumbnail ${i + 1}`}
                         className="rounded-md scale-90 w-full mix-blend-multiply "
                       />
@@ -283,10 +158,10 @@ export function ProductDetailsPage() {
                     Juan Carlos Rodriguez
                   </p>
                   <h1 className="text-lg md:text-2xl font-bold mb-4 text-terciaryLight">
-                    {articulo.nombre}
+                    {articulo?.name}
                   </h1>
                   <p className="text-lg md:text-xl font-semibold text-terciaryLight">
-                    S/ {articulo.precio.toFixed(2)}
+                    S/ {articulo.price.toFixed(2)}
                   </p>
                 </div>
                 <Badge variant="secondary" className="uppercase text-[#555]">
@@ -294,7 +169,7 @@ export function ProductDetailsPage() {
                 </Badge>
               </div>
               <p className="text-sm md:text-base text-[#555] mb-4">
-                {articulo.descripcion}
+                {articulo.description}
               </p>
             </div>
 
@@ -346,33 +221,29 @@ export function ProductDetailsPage() {
               Productos similares
             </h3>
           </div>
-          <div className=" justify-center mx-auto max-w-[1350px] px-8 ">
+          <div className=" justify-center max-w-[1350px] px-8 ">
             <Carousel
               opts={{
                 align: "start",
-                loop: false,
+                loop: true,
                 dragFree: true,
               }}
             >
-              <CarouselContent className="-ml-1">
-                {productos.map((product) => (
-                  <>
-                    <CarouselItem
-                      key={product.id}
-                      className="basis-1/1 lg:basis-1/2 xl:basis-1/3 2xl:basis-1/4"
-                    >
-                      <ProductCard
-                        key={product.id}
-                        id={product.id}
-                        name={product.nombre}
-                        price={product.precio}
-                        qualification={4}
-                        img={
-                          "https://www.az-delivery.uk/cdn/shop/products/esp32-nodemcu-module-wlan-wifi-development-board-mit-cp2102-nachfolgermodell-zum-esp8266-kompatibel-mit-arduino-872375_grande.jpg?v=1679400491"
-                        }
-                      />
-                    </CarouselItem>
-                  </>
+              <CarouselContent className="mb-12 mt-4 mx-auto px-20">
+                {mockProducts.map((p) => (
+                  <CarouselItem
+                    key={`ci-${p.id}`}
+                    className="basis-1/1 lg:basis-1/2 xl:basis-1/3 2xl:basis-1/4"
+                  >
+                    <ProductCard
+                      key={p.id}
+                      id={p.id}
+                      name={p.name}
+                      price={p.price}
+                      qualification={p.qualification}
+                      img={p.img}
+                    />
+                  </CarouselItem>
                 ))}
               </CarouselContent>
               <div className="hidden md:block ">
@@ -444,10 +315,7 @@ export function ProductDetailsPage() {
                 </p>
               </CardHeader>
               <CardContent>
-                <Button className="w-full bg-secondaryLight hover:bg-secondaryLight/80 py-2">
-                  <Star className="w-4 h-4 mr-1" />
-                  Calificar y comentar
-                </Button>
+                <ModalComment />
               </CardContent>
             </Card>
           </div>

@@ -108,11 +108,11 @@ export const MainPage = () => {
                 >
                   <ProductCard
                     key={p.id}
-                    id={Number(p.id)}
+                    id={p.id}
                     name={p.name}
                     price={p.price}
                     qualification={p.qualification}
-                    img="image-card.jpg"
+                    img={p.img}
                   />
                 </CarouselItem>
               ))}
