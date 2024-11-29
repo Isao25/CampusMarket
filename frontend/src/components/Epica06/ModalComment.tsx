@@ -10,14 +10,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export const ModalComment = () => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
+  const [open, setOpen] = useState(false);
   const maxChars = 200;
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="w-full bg-secondaryLight hover:bg-secondaryLight/80 py-2">
           <Star className="w-4 h-4 mr-1" />
@@ -28,13 +30,19 @@ export const ModalComment = () => {
         <DialogHeader>
           <DialogTitle>Califica tu producto</DialogTitle>
         </DialogHeader>
-        <div className="flex flex-col gap-4">
+        {/* Añadimos descripción accesible */}
+        <p id="dialog-description" className="text-sm text-gray-500">
+          Completa los campos a continuación para calificar y comentar sobre el producto.
+        </p>
+        <div className="flex flex-col gap-4" aria-describedby="dialog-description">
           <div className="flex flex-col items-center gap-2">
             <div className="flex gap-1">
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
                   key={star}
-                  onClick={() => setRating(star)}
+                  onClick={() => {
+                    setRating(star);
+                  }}
                   className="hover:scale-110 transition-transform"
                 >
                   <Star
@@ -73,7 +81,13 @@ export const ModalComment = () => {
             </div>
           </div>
 
-          <Button className="w-full bg-[#003B7A] hover:bg-[#002D5C]">
+          <Button
+            className="w-full bg-[#003B7A] hover:bg-[#002D5C]"
+            onClick={() => {
+              setOpen(false);
+              toast.success("Comentario enviado");
+            }}
+          >
             Enviar comentario
           </Button>
         </div>

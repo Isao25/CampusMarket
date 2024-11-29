@@ -2,11 +2,17 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetDescri
 import { Button } from "../ui/button";
 import { Menu } from "lucide-react";
 import { useState } from "react";
-import { categoriasMocks, Categoria } from "../../mocks/Categorias-mocks";
+
+import { categories } from "../../mocks/mainPage-mocks";
+import { useNavigate } from "react-router";
 
 export const SheetComponent = () => {
     const [isOpen, setIsOpen] = useState(false);
-
+    const navigate = useNavigate()
+    const goToCategory = (id: number) => {
+        setIsOpen(false)
+        navigate(`/search?etiquetas=${id}`)
+    }
     return (
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
@@ -23,14 +29,14 @@ export const SheetComponent = () => {
                     </SheetDescription>
                 </SheetHeader>
                 <div className="grid grid-cols-1 gap-2 mt-4">
-                    {categoriasMocks.map((categoria: Categoria) => (
+                    {categories.map((cat) => (
                         <Button
-                            key={categoria.id}
+                            key={cat.id}
                             variant="ghost"
                             className="w-full justify-start text-xl"
-                            onClick={() => setIsOpen(false)}
+                            onClick={() => goToCategory(cat.id)}
                         >
-                            {categoria.nombre}
+                            {cat.title}
                         </Button>
                     ))}
                 </div>

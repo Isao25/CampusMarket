@@ -37,7 +37,7 @@ import { Link } from "react-router-dom";
 import { mockProducts } from "../../mocks/mainPage-mocks";
 import { useEffect, useState } from "react";
 import { ModalComment } from "@/components/Epica06/ModalComment";
-
+import { toast } from "sonner";
 
 export function ProductDetailsPage() {
   const { productId } = useParams<{ productId: string }>();
@@ -203,10 +203,13 @@ export function ProductDetailsPage() {
                 </span>
               </div>
               <div className="flex flex-wrap gap-4">
-                <Button className="flex-1 bg-secondaryLight hover:bg-secondaryLight/80 py-5 text-primaryLight text-sm md:text-[16px]">
+                <Button className="flex-1 bg-secondaryLight hover:bg-secondaryLight/80 py-5 text-primaryLight text-sm md:text-[16px]"
+                onClick={() => toast.success(`${articulo?.name} se agregó al carrito.`)}
+                >
                   <ShoppingCart className="mr-2 h-4 w-4" /> Añadir al carrito
                 </Button>
-                <Button variant="outline" size="icon" className="p-5 md:p-5">
+                <Button variant="outline" size="icon" className="p-5 md:p-5" >
+                 
                   <Heart className="h-4 w-4 border-secondaryLight" />
                 </Button>
               </div>
@@ -221,7 +224,7 @@ export function ProductDetailsPage() {
               Productos similares
             </h3>
           </div>
-          <div className=" justify-center max-w-[1350px] px-8 ">
+          <div className=" justify-center mx-auto w-full px-8 ">
             <Carousel
               opts={{
                 align: "start",

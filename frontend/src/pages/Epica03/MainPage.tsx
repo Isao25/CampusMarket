@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { useNavigate } from 'react-router';
+
 import {
   Carousel,
   CarouselContent,
@@ -11,18 +11,12 @@ import { CategoriesCard, SellersCard } from '../../components/cards';
 import { categories, distinguishedSellers, mockProducts, images } from '../../mocks/mainPage-mocks';
 import { ProductCard } from '../../components/cards/product-card';
 import { LoginModal } from '@/components/Epica5/LoginModal';
-import { useTrademark } from '@/hooks/useTrademark';
+
 
 
 
 
 export const MainPage = () => {
-  const navigate = useNavigate();
-  const{marca,membresia,plan}=useTrademark();
-
-  
-
-  console.log({ marca: marca, membresia: membresia, plan: plan });
 
   // const mockProducts = [
   //   {
