@@ -2,9 +2,9 @@ import { Helmet } from 'react-helmet-async';
 import { Checkbox } from '../../components/ui/checkbox';
 import { Slider } from '../../components/ui/slider';
 import { useLocation, useNavigate } from 'react-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PaginationComp } from '../../components/Epica03/paginationComponent';
-import { ProductCard } from '../../components/cards/product-card';
+import { IProductCardProps, ProductCard } from '../../components/cards/product-card';
 import { mockProducts } from '../../mocks/mainPage-mocks';
 import { categories } from '../../mocks/mainPage-mocks';
 
@@ -19,6 +19,7 @@ export const SearchPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [showAll, setShowAll] = useState(false);
+  const [showItem, setShowItems] = useState<IProductCardProps[]>([])
 
   
 
@@ -93,6 +94,15 @@ export const SearchPage = () => {
     });
   };
 
+  
+  useEffect(() => {
+    setTotalPages(Math.ceil(mockProducts.length / itemsPerPage));
+    const paginatedProducts = mockProducts.slice(
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage
+    );
+    setShowItems(paginatedProducts)
+  }, [itemsPerPage, currentPage]);
 
 
   return (
@@ -185,7 +195,7 @@ export const SearchPage = () => {
           <div className='flex flex-row justify-between mb-4'>
             <div>
               {filters.name && (
-                <h3>{mockProducts ? mockProducts.length : 0} resultados para "{filters.name}"</h3>
+                <h3>{showItem ? showItem.length : 0} resultados para "{filters.name}"</h3>
               )}
             </div>
             <div className='mr-8'>
@@ -198,7 +208,7 @@ export const SearchPage = () => {
             </div>
           </div>
           <div className="flex flex-wrap justify-center gap-4 p-4">
-            {mockProducts ? mockProducts.map((p) => (
+            {showItem ? showItem.map((p) => (
               <ProductCard key={p.id} id={p.id} name={p.name} price={p.price} qualification={p.qualification} brand={p.brand} img={p.img} />
             )) : null}
           </div>
